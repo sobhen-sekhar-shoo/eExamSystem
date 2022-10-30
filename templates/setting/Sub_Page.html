@@ -36,9 +36,7 @@
                             <td>{{item.PageUrl}}</td>
                             <td>{{item.PageType}}</td>
                             <td>{{item.PageOrder}}</td>
-                            <td>
-                                <input type="hidden" class="page_date" value="{{item.date}}">
-                            </td>
+                            <td>{{item.date}}</td>
                           </tr>
                       {% endif %}
                    {% endfor %}
@@ -52,11 +50,4 @@
 </form>
 {% endblock %} 
     
-{% block Scripts %}
-<script>
-    $(".page_date").each((PdIndex,PdObj)=>{
-       let nDate = new Date($(PdObj).val());
-       $(PdObj).after(`${nDate.getDate()}-${nDate.getMonth()}-${nDate.getFullYear()}`)
-    });
-</script>   
-{% endblock %} 
+{% block Scripts %} {% endblock %} 

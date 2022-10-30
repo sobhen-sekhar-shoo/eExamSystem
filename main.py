@@ -8,6 +8,7 @@ from pymongo import MongoClient
 import datetime
 import os
 from werkzeug.utils import secure_filename
+import frender
 
 
 
@@ -23,8 +24,35 @@ db = client["Exam_system"]
 UserDb = db["Users"]
 LeftMenuDb = db["LeftMenu"]
 
+
+@app.context_processor
+def context_processor():
+    Mdata = []
+    if LogStatus() :
+       if  session["userroll"] == "Admin":
+           AdMenu = LeftMenuDb.find()
+           for item in AdMenu :
+               Mdata.append(item)
+       elif  session["userroll"] == "Faculty":
+             AdMenu = LeftMenuDb.find()
+             FJson =['Setting',"Faculty List","Subjects","Papers"]
+             for item in AdMenu :
+                if item.PageTitel not in FJson :
+                   Mdata.append(item)
+       else :
+         AdMenu = LeftMenuDb.find()
+         FJson =['Setting',"Faculty List","Subjects","Papers","Student List","Add Subject","Add Exam"]
+         for item in AdMenu :
+             if item.PageTitel not in FJson :
+                Mdata.append(item)
+    return dict(LeftDt = Mdata)
+
 def LogStatus() :
     return session["LogStatus"]
+
+def DateFormat(x):
+    fDate = f"{x.strftime('%d')}/{x.strftime('%m')}/{x.strftime('%Y')}"
+    return fDate
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -125,6 +153,7 @@ def Pages():
         if LogStatus() :
           LmData = []
           for menu in LeftMenuDb.find() :
+              menu['date'] = DateFormat(menu['date'])
               LmData.append(menu)
           return render_template("/setting/pages.html", MenuJson = LmData)
         return redirect("/logout")
@@ -161,6 +190,7 @@ def SubPage():
           LmSubData = []
           for menu in LeftMenuDb.find() :
              if 'ParentPage' in menu and menu['ParentPage'] == ParentPage :
+                menu['date'] = DateFormat(menu['date'])
                 LmSubData.append(menu)
           return render_template("/setting/sub_page.html", SubMenuJson = LmSubData,PaPage = ParentPage)
         return redirect("/logout")
@@ -169,8 +199,8 @@ def SubPage():
 def AddSubPages():
     if request.method == 'GET':
         if LogStatus() :
-         ParPage = request.args.get("parent_page")
-         return render_template("/setting/add_subpage.html",PPage = ParPage) 
+           ParPage = request.args.get("parent_page")
+           return render_template("/setting/add_subpage.html",PPage = ParPage) 
         return redirect("/logout")
     if request.method == 'POST':
        ParentPage = request.form["Parentpage"]
@@ -192,7 +222,51 @@ def AddSubPages():
        LeftMenuDb.insert_one(Pages)
        return redirect(f"/setting/sub_page?parent_page={request.args.get('parent_page')}",code=302) 
        
-      
+@app.route('/faculty/faculty', methods=['GET'])
+def Faculty():
+    if request.method == 'GET':
+        if LogStatus() :
+          FacData = []
+          for item in UserDb.find({"roll": "Faculty"}) :
+              item['date'] = DateFormat(item['date'])
+              FacData.append(item)
+          return render_template("/faculty/faculty.html", FacultyJson = FacData)
+        return redirect("/logout")
+
+@app.route('/faculty/add_faculty', methods=['GET','POST'])
+def AddFaculty():
+    error = None
+    if request.method == 'GET':
+        if LogStatus() :
+           return render_template("/faculty/add_faculty.html") 
+        return redirect("/logout")
+    if request.method == 'POST':
+         user_id = request.form["fid"]
+         email = request.form["femail"]
+         name = request.form["fname"]
+         roll = "Faculty"
+         password = request.form["fpassword"]
+         gender = request.form["fgender"]
+         if 'fimage' in request.files:
+            image = request.files["fimage"]
+            if image and allowed_file(image.filename):
+               filename = secure_filename(image.filename)
+              
+         if UserDb.find_one({"user_id": user_id}) :
+             error = 'User Id alredy exist'
+         else :
+            post = {"name": name,
+                   "email": email,
+                   "password": password,
+                   "roll": roll,
+                   "user_id": user_id,
+                   "date": datetime.datetime.utcnow(),
+                   "gender": gender,
+                   "image": filename
+                   }
+            image.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))      
+            UserDb.insert_one(post)
+            return redirect("/faculty/faculty", code=302)     
     
 
 
