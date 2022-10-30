@@ -1,0 +1,60 @@
+{% extends "MainLayout.html" %}
+
+{% block title %} Pages {% endblock %}
+{% block head %} {% endblock %}
+
+{% block content%}
+
+<div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Pages</h4>
+        <div class="table-responsive">
+            <table class="table table-hover NTable">
+                <thead>
+                  <tr>
+                    <th>Page Titel</th>
+                    <th>Page Icon</th>
+                    <th>Page Status</th>
+                    <th>Page Url</th>
+                    <th>Page Type</th>
+                    <th>Page Order</th>
+                    <th>Update Date</th>
+                    <th>Sub Page</th>
+                  </tr>
+                </thead>
+                <tbody>
+               {% if MenuJson %}
+                   {% for item in MenuJson %}
+                      {% if item.PageType == "First" %}
+                          <tr>
+                            <td>{{item.PageTitel}}</td>
+                            <td>{{item.PageIcon}}</td>
+                            <td>{{item.PageStatus}}</td>
+                            <td>{{item.PageUrl}}</td>
+                            <td>{{item.PageType}}</td>
+                            <td>{{item.PageOrder}}</td>
+                            <td>
+                                <input type="hidden" class="page_date" value="{{item.date}}">
+                            </td>
+                            <td><a class="ti-arrow-right" href="/setting/sub_page?parent_page={{item.PageTitel}}"></a></td>
+                          </tr>
+                      {% endif %}
+                   {% endfor %}
+               {% endif %}
+              </tbody>
+             </table>
+           </div>
+          </div>
+         </div>
+       </div>
+{% endblock %} 
+    
+{% block Scripts %}
+<script>
+    $(".page_date").each((PdIndex,PdObj)=>{
+       let nDate = new Date($(PdObj).val());
+       $(PdObj).after(`${nDate.getDate()}-${nDate.getMonth()}-${nDate.getFullYear()}`)
+    });
+</script>   
+{% endblock %} 
