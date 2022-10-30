@@ -37,13 +37,13 @@ def context_processor():
              AdMenu = LeftMenuDb.find()
              FJson =['Setting',"Faculty List","Subjects","Papers"]
              for item in AdMenu :
-                if item.PageTitel not in FJson :
+                if item["PageTitel"] not in FJson :
                    Mdata.append(item)
        else :
          AdMenu = LeftMenuDb.find()
          FJson =['Setting',"Faculty List","Subjects","Papers","Student List","Add Subject","Add Exam"]
          for item in AdMenu :
-             if item.PageTitel not in FJson :
+             if item["PageTitel"] not in FJson :
                 Mdata.append(item)
     return dict(LeftDt = Mdata)
 
