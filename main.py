@@ -19,7 +19,7 @@ app = Flask(__name__)
 app.config["SECRET_KEY"] = "a1nbskdgksdgak697auskkdbakjfa8s7f08ajsfbjabsfljf08a7f0asfal"
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 *1024
-client = MongoClient("mongodb://localhost:27017/")
+client = MongoClient("mongodb+srv://eExamSystem:8yUZvK6Z95HNOeJs@eexam-system.f07qvqu.mongodb.net/test")
 db = client["Exam_system"]
 UserDb = db["Users"]
 LeftMenuDb = db["LeftMenu"]
@@ -28,7 +28,7 @@ LeftMenuDb = db["LeftMenu"]
 @app.context_processor
 def context_processor():
     Mdata = []
-    if LogStatus() :
+    if "userroll" in session :
        if  session["userroll"] == "Admin":
            AdMenu = LeftMenuDb.find()
            for item in AdMenu :
