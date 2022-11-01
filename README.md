@@ -11,6 +11,12 @@ mogo cluster - eExam-System :
                user_id  == eExamSystem
                password == 8yUZvK6Z95HNOeJs
 
+for install vartual env :
+             cmd == pip install virtualenv 
+
+for install vartual env :
+             cmd == py -m venv env
+
 for activate vartual env :
               .\env\Scripts\activate.ps1  
 
