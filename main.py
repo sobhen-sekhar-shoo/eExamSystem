@@ -157,7 +157,10 @@ def Pages():
               LmData.append(menu)
           return render_template("/setting/pages.html", MenuJson = LmData)
         return redirect("/logout")
-       
+    if request.method == 'POST':
+        return render_template("/setting/pages.html",code=302)
+
+
 @app.route('/setting/add_pages', methods=['GET','POST'])
 def AddPages():
     if request.method == 'GET':
@@ -194,6 +197,7 @@ def SubPage():
                 LmSubData.append(menu)
           return render_template("/setting/sub_page.html", SubMenuJson = LmSubData,PaPage = ParentPage)
         return redirect("/logout")
+    
 
 @app.route('/setting/add_subpage', methods=['GET','POST'])
 def AddSubPages():

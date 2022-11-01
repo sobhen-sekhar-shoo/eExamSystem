@@ -19,6 +19,9 @@
   <!-- inject:css -->
   <link rel="stylesheet" href="{{url_for('static', filename='home/vertical-layout-light/style.css')}}">
   <!-- endinject -->
+  <!-- custom:css -->
+  <link rel="stylesheet" href="{{url_for('static', filename='home/css/custom.css')}}">
+  <!-- custom -->
   <link rel="shortcut icon" href="{{url_for('static', filename='home/images/eexam.png')}}" type="image/x-icon">
   {% block head %}
   {% endblock %}
@@ -430,7 +433,8 @@
   <!-- endinject -->
   <!-- Custom js for this page-->
   <script src="{{url_for('static', filename='home/js/dashboard.js')}}"></script>
-   <script src="{{url_for('static', filename='home/js/Chart.roundedBarCharts.js')}}"></script> 
+  <script src="{{url_for('static', filename='home/js/Chart.roundedBarCharts.js')}}"></script> 
+  <script src="{{url_for('static', filename='home/js/custom.js')}}"></script> 
   <!-- End custom js for this page-->
 
   {% block Scripts %}

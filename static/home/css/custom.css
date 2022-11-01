@@ -1,0 +1,18 @@
+
+.C_Icon{
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
+}
+.C_Icon:hover{
+    color:blue;
+}
+.C_Icon_Btn{
+    border: none;
+    background-color: transparent;
+}
+.C_Icon_Btn.Update{
+    color:green;
+}
+.C_Icon_Btn.Delete{
+    color:red;
+}
