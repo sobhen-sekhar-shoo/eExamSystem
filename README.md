@@ -14,7 +14,7 @@ mogo cluster - eExam-System :
 for install vartual env :
              cmd == pip install virtualenv 
 
-for install vartual env :
+for create vartual env :
              cmd == py -m venv env
 
 for activate vartual env :
