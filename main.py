@@ -225,7 +225,28 @@ def AddSubPages():
                }
        LeftMenuDb.insert_one(Pages)
        return redirect(f"/setting/sub_page?parent_page={request.args.get('parent_page')}",code=302) 
-       
+
+@app.route('/setting/Edit_pages', methods=['GET','POST'])
+def EditPage():
+    if request.method == 'GET':
+        if LogStatus() :
+          PageTitel =  request.args.get("PageTitel")
+          PageIcon =  request.args.get("PageIcon")
+          PageStatus =  request.args.get("PageStatus")
+          PageUrl =  request.args.get("PageUrl")
+          PageOrder =  request.args.get("PageOrder")
+          print(PageOrder)
+          EpBindJson = {
+              "PageTitel" : PageTitel,
+              "PageIcon" : PageIcon,
+              "PageStatus" : PageStatus,
+              "PageUrl" : PageUrl,
+              "PageOrder" : PageOrder
+          }
+          return render_template("/setting/Edit_pages.html",EpBindData = EpBindJson)
+        return redirect("/logout")
+
+
 @app.route('/faculty/faculty', methods=['GET'])
 def Faculty():
     if request.method == 'GET':

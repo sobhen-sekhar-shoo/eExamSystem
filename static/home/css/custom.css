@@ -16,3 +16,10 @@
 .C_Icon_Btn.Delete{
     color:red;
 }
+
+.modal iframe{
+    width: 100%;
+    height: 26rem;
+    border: none;
+}
+

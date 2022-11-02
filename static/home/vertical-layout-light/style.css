@@ -23766,7 +23766,7 @@ dl li {
 
 /* Modals */
 .modal .modal-dialog {
-  margin-top: 100px;
+  margin-top: 30px;
 }
 
 .modal .modal-dialog .modal-content .modal-header {
@@ -23780,7 +23780,7 @@ dl li {
 }
 
 .modal .modal-dialog .modal-content .modal-body {
-  padding: 35px 26px;
+  padding: 0px 26px;
 }
 
 .modal .modal-dialog .modal-content .modal-footer {
