@@ -10,7 +10,6 @@ $('#myModal').on('shown.bs.modal', function (obj) {
     Upjson = Upjson.split(",");
     let UpSearch = "";
     $(Upjson).each((UjIndex,UjObj)=>{
-        debugger;
         let UpUrlSp = UjObj.split(":")
         Upjson.length - 1 == UjIndex ? UpSearch += `${UpUrlSp[0]}=${UpUrlSp[1]}` : UpSearch += `${UpUrlSp[0]}=${UpUrlSp[1]}&`
     })
@@ -20,9 +19,14 @@ $('#myModal').on('shown.bs.modal', function (obj) {
         backdrop: 'static',
         keyboard : false
     })
-    $("#UpdateSaveBtn").click((btnObj)=>{
+    $("#UpdateSaveBtn").click((UpBtnObj)=>{
+        $($($(UpBtnObj.currentTarget).closest(".modal-content").find("iframe"))[0].contentDocument).find("form").submit()
+        $('#UpdateModal').modal("hide")
+        window.location.reload();
+    })
+    $("#UpdateCloseBtn").click((ClBtnObj)=>{
         debugger;
-        
+        $($(ClBtnObj.currentTarget).closest(".modal-content").find("iframe")).removeAttr("src")
     })
   }
   function DeleteModal(){

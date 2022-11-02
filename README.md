@@ -23,9 +23,6 @@ for activate vartual env :
 for DeActivate vartual env :
               deactivate  
 
-for install env requir files :
-              cmd == pip install -r requirements.txt
-
 for generate requirement.txt :
               cmd == pip freeze > requirements.txt
 

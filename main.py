@@ -228,6 +228,7 @@ def AddSubPages():
 
 @app.route('/setting/Edit_pages', methods=['GET','POST'])
 def EditPage():
+    EpBindJson = None
     if request.method == 'GET':
         if LogStatus() :
           PageTitel =  request.args.get("PageTitel")
@@ -235,7 +236,6 @@ def EditPage():
           PageStatus =  request.args.get("PageStatus")
           PageUrl =  request.args.get("PageUrl")
           PageOrder =  request.args.get("PageOrder")
-          print(PageOrder)
           EpBindJson = {
               "PageTitel" : PageTitel,
               "PageIcon" : PageIcon,
@@ -245,7 +245,22 @@ def EditPage():
           }
           return render_template("/setting/Edit_pages.html",EpBindData = EpBindJson)
         return redirect("/logout")
-
+    if request.method == 'POST':
+        PPageTitel =  request.form["PageTitel"]
+        PPageIcon =  request.form["PageIcon"]
+        PPageStatus =  request.form["PageStatus"]
+        PPageUrl =  request.form["PageUrl"]
+        PPageOrder =  request.form["PageOrder"]
+        PPage = {
+              "PageTitel" : PPageTitel,
+              "PageIcon" : PPageIcon,
+              "PageStatus" : PPageStatus,
+              "PageUrl" : PPageUrl,
+              "PageOrder" : PPageOrder
+        }
+        OldData = LeftMenuDb.find_one(EpBindJson)
+        x =  LeftMenuDb.update_one(OldData,{"$set": PPage})
+        return redirect("/setting/pages")
 
 @app.route('/faculty/faculty', methods=['GET'])
 def Faculty():
