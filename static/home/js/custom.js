@@ -25,7 +25,6 @@ $('#myModal').on('shown.bs.modal', function (obj) {
         $("form").submit();
     })
     $("#UpdateCloseBtn").click((ClBtnObj)=>{
-        debugger;
         $($(ClBtnObj.currentTarget).closest(".modal-content").find("iframe")).removeAttr("src")
     })
   }
@@ -41,6 +40,7 @@ $('#myModal').on('shown.bs.modal', function (obj) {
       $("#DeleteModal #close_delete,#DeleteModal .close").click(() => {
         $("#DeleteModal #confirm_delete").attr("disabled", "disabled");
         DeleteReject(false);
+        $("#DeleteModal #delete_input_field").val("");
       });
     })
     return await DeletePromise.then(
