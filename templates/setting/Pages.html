@@ -4,7 +4,10 @@
 {% block head %} {% endblock %}
 
 {% block content%}
-
+{% if message %}
+  <label>{{message}}</label>
+{% endif %}
+<form method="post">
 <div class="col-lg-12 grid-margin stretch-card">
     <div class="card">
       <div class="card-body">
@@ -37,7 +40,7 @@
                             <td>
                               <div>
                                 <button onclick="UpdateModal('PageTitel:{{item.PageTitel}},PageIcon:{{item.PageIcon}},PageStatus:{{item.PageStatus}},PageUrl:{{item.PageUrl}},PageOrder:{{item.PageOrder}}','/setting/Edit_pages')" class="C_Icon_Btn Update" type="button"><em class="ti-write C_Icon"></em></button>
-                                <button onclick="DeleteModal(item)" class="C_Icon_Btn Delete" type="button"><em class="ti-trash C_Icon"></em></button>
+                                <button onclick="DeleteModal('PageTitel:{{item.PageTitel}}')" class="C_Icon_Btn Delete" type="button"><em class="ti-trash C_Icon"></em></button>
                               </div>
                             </td>
                             <td><a class="ti-arrow-right" href="/setting/sub_page?parent_page={{item.PageTitel}}"></a></td>
@@ -51,7 +54,7 @@
           </div>
          </div>
        </div>
-
+</form>
 {% endblock %} 
     
 {% block Scripts %} {% endblock %} 

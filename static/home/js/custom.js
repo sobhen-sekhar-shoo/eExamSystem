@@ -22,16 +22,21 @@ $('#myModal').on('shown.bs.modal', function (obj) {
     $("#UpdateSaveBtn").click((UpBtnObj)=>{
         $($($(UpBtnObj.currentTarget).closest(".modal-content").find("iframe"))[0].contentDocument).find("form").submit()
         $('#UpdateModal').modal("hide")
-        window.location.reload();
+        $("form").submit();
     })
     $("#UpdateCloseBtn").click((ClBtnObj)=>{
         debugger;
         $($(ClBtnObj.currentTarget).closest(".modal-content").find("iframe")).removeAttr("src")
     })
   }
-  function DeleteModal(){
-    $('#DeleteModal').modal({
-        backdrop: 'static',
-        keyboard : false
-    })
+  function DeleteModal(dt){
+    if (confirm("Are You Sure to Delete")){
+      $.post(`?mode=delete&data=${dt}`,(result)=>{
+        $("form").submit();
+      })
+    }
+    // $('#DeleteModal').modal({
+    //     backdrop: 'static',
+    //     keyboard : false
+    // })
   }

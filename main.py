@@ -1,4 +1,6 @@
+from email import message
 from math import e
+from re import M
 from sre_constants import SUCCESS
 from tkinter import Image
 from flask import Flask, flash, request,url_for,render_template,redirect,session
@@ -19,7 +21,13 @@ app = Flask(__name__)
 app.config["SECRET_KEY"] = "a1nbskdgksdgak697auskkdbakjfa8s7f08ajsfbjabsfljf08a7f0asfal"
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 *1024
-client = MongoClient("mongodb+srv://eExamSystem:8yUZvK6Z95HNOeJs@eexam-system.f07qvqu.mongodb.net/test")
+
+try:
+   client = MongoClient("mongodb+srv://eExamSystem:8yUZvK6Z95HNOeJs@eexam-system.f07qvqu.mongodb.net/test")
+   print("Connected successfully!!!")
+except:  
+    print("Could not connect to MongoDB")
+
 db = client["Exam_system"]
 UserDb = db["Users"]
 LeftMenuDb = db["LeftMenu"]
@@ -147,7 +155,7 @@ def AddStudent():
       
     return render_template("/student/add_student.html")
 
-@app.route('/setting/pages', methods=['GET'])
+@app.route('/setting/pages', methods=['GET','POST'])
 def Pages():
     if request.method == 'GET':
         if LogStatus() :
@@ -158,8 +166,12 @@ def Pages():
           return render_template("/setting/pages.html", MenuJson = LmData)
         return redirect("/logout")
     if request.method == 'POST':
-        return render_template("/setting/pages.html",code=302)
-
+        mode = request.args.get("mode")
+        data = request.args.get("data")
+        if mode == "delete" :
+           LeftMenuDb.delete_one({"PageTitel":data.split(":")[1]})
+           return  {"Redirect" : "/setting/pages","message" : "Deleted Successfully"}
+        return redirect("/setting/pages")
 
 @app.route('/setting/add_pages', methods=['GET','POST'])
 def AddPages():
@@ -185,7 +197,7 @@ def AddPages():
        LeftMenuDb.insert_one(Pages)
        return redirect("/setting/pages",code=302) 
        
-@app.route('/setting/sub_page', methods=['GET'])
+@app.route('/setting/sub_page', methods=['GET','POST'])
 def SubPage():
     if request.method == 'GET':
         if LogStatus() :
@@ -197,8 +209,15 @@ def SubPage():
                 LmSubData.append(menu)
           return render_template("/setting/sub_page.html", SubMenuJson = LmSubData,PaPage = ParentPage)
         return redirect("/logout")
-    
-
+    if request.method == 'POST':
+        mode = request.args.get("mode")
+        data = request.args.get("data")
+        if mode == "delete" :
+           Parent_Page = data.split(",")[1].split(":")[1]
+           LeftMenuDb.delete_one({"PageTitel":data.split(",")[0].split(":")[1]})
+           return  {"Redirect" : f"/setting/sub_page?parent_page={Parent_Page}","message" : "Deleted Successfully"}
+        return redirect(f"/setting/sub_page?parent_page={request.args.get('parent_page')}")
+        
 @app.route('/setting/add_subpage', methods=['GET','POST'])
 def AddSubPages():
     if request.method == 'GET':
@@ -228,7 +247,6 @@ def AddSubPages():
 
 @app.route('/setting/Edit_pages', methods=['GET','POST'])
 def EditPage():
-    EpBindJson = None
     if request.method == 'GET':
         if LogStatus() :
           PageTitel =  request.args.get("PageTitel")
@@ -258,9 +276,9 @@ def EditPage():
               "PageUrl" : PPageUrl,
               "PageOrder" : PPageOrder
         }
-        OldData = LeftMenuDb.find_one(EpBindJson)
-        x =  LeftMenuDb.update_one(OldData,{"$set": PPage})
-        return redirect("/setting/pages")
+        OldData = LeftMenuDb.find_one({"PageTitel": request.args.get("PageTitel")})
+        LeftMenuDb.update_one(OldData,{"$set": PPage})
+        return redirect("/setting/pages",code=302)
 
 @app.route('/faculty/faculty', methods=['GET'])
 def Faculty():
