@@ -24,7 +24,7 @@ app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 *1024
 
 try:
    client = MongoClient("mongodb+srv://eExamSystem:8yUZvK6Z95HNOeJs@eexam-system.f07qvqu.mongodb.net/test")
-   print("Connected successfully!!!")
+   print("Mongo Connected successfully!!!")
 except:  
     print("Could not connect to MongoDB")
 
@@ -98,8 +98,6 @@ def Login():
             error = 'Invalid user id/password'
     return render_template("login.html" ,error = error)
 
-
-    
 @app.route('/signup',  methods=['GET','POST'])
 def Signup():
     error = None
@@ -132,7 +130,6 @@ def Signup():
             return redirect("/login", code=302)
           
     return render_template("signup.html", error = error)
-
 
 @app.route('/home')
 def Home():
@@ -278,7 +275,7 @@ def EditPage():
         }
         OldData = LeftMenuDb.find_one({"PageTitel": request.args.get("PageTitel")})
         LeftMenuDb.update_one(OldData,{"$set": PPage})
-        return redirect("/setting/pages",code=302)
+        return redirect("/setting/Edit_pages",code=302)
 
 @app.route('/faculty/faculty', methods=['GET'])
 def Faculty():

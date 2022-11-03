@@ -23,3 +23,13 @@
     border: none;
 }
 
+#DeleteModal .modal-header{
+    padding: 10px 26px !important;
+}
+#DeleteModal .modal-body .delete_content{
+    height: 10rem;
+    padding-top: 25px;
+}
+#DeleteModal .modal-body .delete_input_area{
+    margin-top: 30px;
+}

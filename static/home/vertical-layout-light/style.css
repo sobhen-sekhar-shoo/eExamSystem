@@ -11293,6 +11293,7 @@ fieldset:disabled .wizard > .actions a,
   color: #fff;
   background-color: #FF4747;
   border-color: #FF4747;
+  cursor: not-allowed;
 }
 
 .btn-danger:not(:disabled):not(.disabled):active, .btn-danger:not(:disabled):not(.disabled).active,

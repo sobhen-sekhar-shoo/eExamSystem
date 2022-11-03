@@ -29,14 +29,29 @@ $('#myModal').on('shown.bs.modal', function (obj) {
         $($(ClBtnObj.currentTarget).closest(".modal-content").find("iframe")).removeAttr("src")
     })
   }
-  function DeleteModal(dt){
-    if (confirm("Are You Sure to Delete")){
+  async function ConfirmDelet(){
+    let DeletePromise = new Promise(function (DeleteResolve, DeleteReject) {
+      $('#DeleteModal').modal({backdrop: 'static', keyboard : false })
+      $("#DeleteModal #delete_input_field").keyup((object) => {
+        object.target.value == "Delete" ? $("#DeleteModal #confirm_delete").removeAttr("disabled") : $("#DeleteModal #confirm_delete").attr("disabled", "disabled");
+      });
+      $("#DeleteModal #confirm_delete").click(()=>{
+        $("#DeleteModal #delete_input_field").val() == "Delete" ? DeleteResolve(true) : DeleteResolve(false);
+      });
+      $("#DeleteModal #close_delete,#DeleteModal .close").click(() => {
+        $("#DeleteModal #confirm_delete").attr("disabled", "disabled");
+        DeleteReject(false);
+      });
+    })
+    return await DeletePromise.then(
+      function (value) { return value },
+      function (error) { return error }
+    )
+  }
+  async function DeleteModal(dt){
+    if (await ConfirmDelet()){
       $.post(`?mode=delete&data=${dt}`,(result)=>{
         $("form").submit();
       })
     }
-    // $('#DeleteModal').modal({
-    //     backdrop: 'static',
-    //     keyboard : false
-    // })
   }
