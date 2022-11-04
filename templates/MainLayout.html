@@ -280,7 +280,16 @@
         </div>
       </div>
       <!-- partial -->
+
       <!-- partial:partials/_sidebar.html -->
+      {% for LeftItem in LeftDt %}
+          {% if LeftItem.PageType == "First" and LeftItem.PageUrl == "" %}
+
+          {% else %}
+           
+          {% endif %}
+              
+      {% endfor %}
       <nav class="sidebar sidebar-offcanvas" id="sidebar">
         <ul class="nav">
           <li class="nav-item">

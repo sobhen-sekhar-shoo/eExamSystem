@@ -40,6 +40,7 @@ def context_processor():
        if  session["userroll"] == "Admin":
            AdMenu = LeftMenuDb.find()
            for item in AdMenu :
+               print(item)
                Mdata.append(item)
        elif  session["userroll"] == "Faculty":
              AdMenu = LeftMenuDb.find()
