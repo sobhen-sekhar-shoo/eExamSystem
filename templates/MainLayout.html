@@ -288,132 +288,37 @@
       <!-- partial -->
 
       <!-- partial:partials/_sidebar.html -->
-      {% for LeftItem in LeftDt %}
-          {% if LeftItem.PageType == "First" and LeftItem.PageUrl == "" %}
-
-          {% else %}
-           
-          {% endif %}
-              
-      {% endfor %}
       <nav class="sidebar sidebar-offcanvas" id="sidebar">
         <ul class="nav">
-          <li class="nav-item">
-            <a class="nav-link" href="/home">
-              <i class="icon-grid menu-icon"></i>
-              <span class="menu-title">Dashboard</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#faculty" aria-expanded="false" aria-controls="faculty">
-              <i class="icon-head menu-icon"></i>
-              <span class="menu-title">Faculty List</span>
-              <i class="menu-arrow"></i>
-            </a>
-            <div class="collapse" id="faculty">
-              <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="/faculty/faculty">Faculty</a></li>
-                <li class="nav-item"> <a class="nav-link" href="/faculty/add_faculty">Add Faculty</a></li>
-              </ul>
-            </div>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#students" aria-expanded="false" aria-controls="students">
-              <i class="icon-layout menu-icon"></i>
-              <span class="menu-title">Student List</span>
-              <i class="menu-arrow"></i>
-            </a>
-            <div class="collapse" id="students">
-              <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="/student/students">Student</a></li>
-                <li class="nav-item"> <a class="nav-link" href="/student/add_student">Add Student</a></li>
-              </ul>
-            </div>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#subject" aria-expanded="false" aria-controls="subject">
-              <i class="icon-columns menu-icon"></i>
-              <span class="menu-title">Subjects</span>
-              <i class="menu-arrow"></i>
-            </a>
-            <div class="collapse" id="subject">
-              <ul class="nav flex-column sub-menu">
-                <li class="nav-item"><a class="nav-link" href="/subject/subject">Subject</a></li>
-                <li class="nav-item"><a class="nav-link" href="/subject/add_subject">Add Subject</a></li>
-              </ul>
-            </div>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#exam" aria-expanded="false" aria-controls="exam">
-              <i class="icon-bar-graph menu-icon"></i>
-              <span class="menu-title">Exams</span>
-              <i class="menu-arrow"></i>
-            </a>
-            <div class="collapse" id="exam">
-              <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="/exam/exam">Exam</a></li>
-                <li class="nav-item"> <a class="nav-link" href="/exam/add_exam">Add Exam</a></li>
-              </ul>
-            </div>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#report" aria-expanded="false" aria-controls="report">
-              <i class="icon-grid-2 menu-icon"></i>
-              <span class="menu-title">Reports</span>
-              <i class="menu-arrow"></i>
-            </a>
-            <div class="collapse" id="report">
-              <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="/reports/report">Report</a></li>
-              </ul>
-            </div>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#Paper" aria-expanded="false" aria-controls="Paper">
-              <i class="icon-contract menu-icon"></i>
-              <span class="menu-title">Papers</span>
-              <i class="menu-arrow"></i>
-            </a>
-            <div class="collapse" id="Paper">
-              <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="/papers/paper">My Papers</a></li>
-              </ul>
-            </div>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#notice" aria-expanded="false" aria-controls="notice">
-              <i class="icon-paper menu-icon"></i>
-              <span class="menu-title">Important Notice</span>
-              <i class="menu-arrow"></i>
-            </a>
-            <div class="collapse" id="notice">
-              <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="pages/samples/login.html"> Login </a></li>
-                <li class="nav-item"> <a class="nav-link" href="pages/samples/register.html"> Register </a></li>
-              </ul>
-            </div>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#setting" aria-expanded="false" aria-controls="setting">
-              <i class="ti-settings menu-icon"></i>
-              <span class="menu-title">Setting</span>
-              <i class="menu-arrow"></i>
-            </a>
-            <div class="collapse" id="setting">
-              <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="/setting/pages"> Pages </a></li>
-                <li class="nav-item"> <a class="nav-link" href="/setting/add_pages"> Add Pages </a></li>
-              </ul>
-            </div>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/support">
-              <i class="ti-headphone-alt menu-icon"></i>
-              <span class="menu-title">Support</span>
-            </a>
-          </li>
-        </ul>
-      </nav>
+      {% for Fitem in FLeftDt %}
+              {% if Fitem.PageUrl == "" %}
+              <li class="nav-item">
+                <a class="nav-link" data-toggle="collapse" href="#{{Fitem.PageType}}{{Fitem._id}}" aria-expanded="false" aria-controls="{{Fitem.PageType}}{{Fitem._id}}">
+                  <i class="{{Fitem.PageIcon}} menu-icon"></i>
+                  <span class="menu-title">{{Fitem.PageTitel}}</span>
+                  <i class="menu-arrow"></i>
+                </a>
+                <div class="collapse" id="{{Fitem.PageType}}{{Fitem._id}}">
+                  <ul class="nav flex-column sub-menu">
+                {% for Sitem in SLeftDt %}
+                    {% if Sitem.ParentPage == Fitem.PageTitel %}
+                       <li class="nav-item"> <a class="nav-link" href="{{Sitem.PageUrl}}">{{Sitem.PageTitel}}</a></li>
+                    {% endif %}
+                {% endfor %}
+                  </ul>
+                </div>
+              </li>
+              {% else %}
+                 <li class="nav-item">
+                   <a class="nav-link" href="{{Fitem.PageUrl}}">
+                     <i class="{{Fitem.PageIcon}} menu-icon"></i>
+                     <span class="menu-title">{{Fitem.PageTitel}}</span>
+                   </a>
+                 </li>
+              {% endif %}
+      {% endfor %}
+      </ul>
+    </nav>
       <!-- partial -->
       <div class="main-panel">
         <div class="content-wrapper">

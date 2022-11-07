@@ -35,28 +35,35 @@ LeftMenuDb = db["LeftMenu"]
 
 @app.context_processor
 def context_processor():
-    Mdata = []
-    TDt = datetime.datetime.now();
-    MDt = f"({TDt.strftime('%d')} {TDt.strftime('%b')} {TDt.strftime('%Y')})"
+    FMdata = []
+    SMdata = []
     if "userroll" in session :
        if  session["userroll"] == "Admin":
            AdMenu = LeftMenuDb.find()
            for item in AdMenu :
-               print(item)
-               Mdata.append(item)
+               if item["PageType"] == "First" :
+                    FMdata.append(item)
+               if item["PageType"] == "Second" :
+                    SMdata.append(item)
        elif  session["userroll"] == "Faculty":
              AdMenu = LeftMenuDb.find()
-             FJson =['Setting',"Faculty List","Subjects","Papers"]
+             FJson =['Setting',"Faculty List","Subjects","Papers","Exam"]
              for item in AdMenu :
                 if item["PageTitel"] not in FJson :
-                   Mdata.append(item)
+                   if item["PageType"] == "First" :
+                    FMdata.append(item)
+                   if item["PageType"] == "Second" :
+                    SMdata.append(item)
        else :
          AdMenu = LeftMenuDb.find()
-         FJson =['Setting',"Faculty List","Subjects","Papers","Student List","Add Subject","Add Exam"]
+         FJson =['Setting',"Faculty List","Subjects","Papers","Student List","Add Subject","Add Exam","Add Notice","Schedule Exam"]
          for item in AdMenu :
              if item["PageTitel"] not in FJson :
-                Mdata.append(item)
-    return dict(LeftDt = Mdata,MDt = MDt)
+                if item["PageType"] == "First" :
+                    FMdata.append(item)
+                if item["PageType"] == "Second" :
+                    SMdata.append(item)
+    return dict(FLeftDt = FMdata, SLeftDt = SMdata)
 
 def LogStatus() :
     return session["LogStatus"]
@@ -159,11 +166,11 @@ def AddStudent():
 def Pages():
     if request.method == 'GET':
         if LogStatus() :
-          LmData = []
+          LFMdata = []
           for menu in LeftMenuDb.find() :
               menu['date'] = DateFormat(menu['date'])
-              LmData.append(menu)
-          return render_template("/setting/pages.html", MenuJson = LmData)
+              LFMdata.append(menu)
+          return render_template("/setting/pages.html", MenuJson = LFMdata)
         return redirect("/logout")
     if request.method == 'POST':
         mode = request.args.get("mode")
