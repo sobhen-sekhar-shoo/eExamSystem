@@ -23,8 +23,7 @@
   <link rel="stylesheet" href="{{url_for('static', filename='home/css/custom.css')}}">
   <!-- custom -->
   <link rel="shortcut icon" href="{{url_for('static', filename='home/images/eexam.png')}}" type="image/x-icon">
-  {% block head %}
-  {% endblock %}
+  {% block head %} {% endblock %}
 
 </head>
 <body>
@@ -52,6 +51,13 @@
           </li>
         </ul>
         <ul class="navbar-nav navbar-nav-right">
+          <li class="dropdown nav-item">
+            <div class="flex-md-grow-1 flex-xl-grow-0">
+              <div class="bg-white btn-light btn-sm" id="MenuDate">
+                   Today <span id="MenuDateSpan">{{MDt}}</span>
+              </div>
+           </div>
+          </li>
           <li class="nav-item dropdown">
             <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#" data-toggle="dropdown">
               <i class="icon-bell mx-0"></i>

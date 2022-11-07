@@ -36,6 +36,8 @@ LeftMenuDb = db["LeftMenu"]
 @app.context_processor
 def context_processor():
     Mdata = []
+    TDt = datetime.datetime.now();
+    MDt = f"({TDt.strftime('%d')} {TDt.strftime('%b')} {TDt.strftime('%Y')})"
     if "userroll" in session :
        if  session["userroll"] == "Admin":
            AdMenu = LeftMenuDb.find()
@@ -54,7 +56,7 @@ def context_processor():
          for item in AdMenu :
              if item["PageTitel"] not in FJson :
                 Mdata.append(item)
-    return dict(LeftDt = Mdata)
+    return dict(LeftDt = Mdata,MDt = MDt)
 
 def LogStatus() :
     return session["LogStatus"]
