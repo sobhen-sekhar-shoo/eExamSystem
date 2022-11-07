@@ -52,6 +52,11 @@ $('#myModal').on('shown.bs.modal', function (obj) {
     if (await ConfirmDelet()){
       $.post(`?mode=delete&data=${dt}`,(result)=>{
         $("form").submit();
-      })
+      });
     }
-  }
+  };
+
+  function StartExam(){
+    let NewExam = window.open('StartExam.html','NewExam',`width=${window.outerWidth},height=${window.outerHeight},scrollbars=yes,top="0", left="0"`)
+    NewExam.document.write('Start Test')
+  };

@@ -37,6 +37,8 @@ LeftMenuDb = db["LeftMenu"]
 def context_processor():
     FMdata = []
     SMdata = []
+    TDt = datetime.datetime.now();
+    MDt = f"({TDt.strftime('%d')} {TDt.strftime('%b')} {TDt.strftime('%Y')})"
     if "userroll" in session :
        if  session["userroll"] == "Admin":
            AdMenu = LeftMenuDb.find()
@@ -63,7 +65,7 @@ def context_processor():
                     FMdata.append(item)
                 if item["PageType"] == "Second" :
                     SMdata.append(item)
-    return dict(FLeftDt = FMdata, SLeftDt = SMdata)
+    return dict(FLeftDt = FMdata, SLeftDt = SMdata, MDt = MDt)
 
 def LogStatus() :
     return session["LogStatus"]
@@ -284,6 +286,8 @@ def EditPage():
               "PageOrder" : PPageOrder
         }
         OldData = LeftMenuDb.find_one({"PageTitel": request.args.get("PageTitel")})
+        print(OldData)
+        print(PPage)
         LeftMenuDb.update_one(OldData,{"$set": PPage})
         return redirect("/setting/Edit_pages",code=302)
 
@@ -333,6 +337,18 @@ def AddFaculty():
             UserDb.insert_one(post)
             return redirect("/faculty/faculty", code=302)     
     
+@app.route('/exam/exams', methods=['GET','POST'])
+def Exam():
+    error = None
+    if request.method == 'GET':
+        if LogStatus() :
+           return render_template("/exam/exams.html") 
+        return redirect("/logout")
+    if request.method == 'POST':
+         
+            return redirect("/exam/exams", code=302)     
+    
+
 
 
 
