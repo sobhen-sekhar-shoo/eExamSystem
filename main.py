@@ -337,16 +337,27 @@ def AddFaculty():
             UserDb.insert_one(post)
             return redirect("/faculty/faculty", code=302)     
     
-@app.route('/exam/exams', methods=['GET','POST'])
+@app.route('/exams/exam', methods=['GET','POST'])
 def Exam():
     error = None
     if request.method == 'GET':
         if LogStatus() :
-           return render_template("/exam/exams.html") 
+           return render_template("/exams/exam.html") 
         return redirect("/logout")
     if request.method == 'POST':
          
-            return redirect("/exam/exams", code=302)     
+            return redirect("/exams/exam", code=302)     
+
+@app.route('/exams/schedule_exam', methods=['GET','POST'])
+def ScheduleExam():
+    error = None
+    if request.method == 'GET':
+        if LogStatus() :
+           return render_template("/exams/schedule_exam.html") 
+        return redirect("/logout")
+    if request.method == 'POST':
+         
+            return render_template("/exams/schedule_exam.html")     
     
 
 
