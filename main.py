@@ -286,8 +286,6 @@ def EditPage():
               "PageOrder" : PPageOrder
         }
         OldData = LeftMenuDb.find_one({"PageTitel": request.args.get("PageTitel")})
-        print(OldData)
-        print(PPage)
         LeftMenuDb.update_one(OldData,{"$set": PPage})
         return redirect("/setting/Edit_pages",code=302)
 
