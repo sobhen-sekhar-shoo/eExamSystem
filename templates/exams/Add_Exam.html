@@ -1,0 +1,90 @@
+{% extends "MainLayout.html" %}
+
+{% block title %} Add-Exam {% endblock %}
+{% block head %} {% endblock %}
+
+{% block content%}
+<form method="post">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">Add Exam</h4>
+              <div class="form-group">
+                <div class="row">
+                 <div class="col-md-4 col-sm-4 col-xs-4">
+                    <label for="SBranch">Select Branch</label>
+                    <select name="Branch" id="SBranch" class="form-control">
+                        <option value="0">Choose One</option>
+                            {% for item in BranDt %}
+                                <option value="{{item.BCode}}">{{item.BTitel}}</option>
+                            {% endfor %}
+                    </select>
+                 </div>
+                 <div class="col-md-4 col-sm-4 col-xs-4">
+                    <label for="SSubject">Select Subject</label>
+                    <select name="Subject" id="SSubject" class="form-control" disabled>
+                        <option value="0">Choose One</option>
+                    </select>
+                 </div>
+                 <div class="col-md-4 col-sm-4 col-xs-4">
+                    <label for="SCode">Subject Code</label>
+                    <input type="text" class="form-control" name="SubCode" id="SCode" placeholder="Subject Code" required disabled>
+                 </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="row">
+                
+                </div>
+              </div>
+              <div id="AddQuestion">
+                    <div class="AQBtnArea text-right">
+                        <label class="mr-2">Add Question <em style="font-size: 12px;" class="ti-angle-right"></em></label>
+                        <button type="button" class="AQBtn"><em class="ti-plus"></em></button>
+                    </div>
+              </div>
+             
+              <!-- <button type="submit" class="btn btn-primary mr-2">Submit</button> -->
+          </div>
+        </div>
+      </div>
+</form>
+{% endblock %} 
+
+{% block Scripts %} 
+<script>
+    $(document).ready(()=>{
+        $("#SBranch").change((e)=>{
+            if (e.currentTarget.value != "0"){
+                $.get(`?Branch=${e.currentTarget.value}`,(result)=>{
+                    $("#SSubject option").not($("#SSubject option")[0]).remove();
+                    $(result).each((ResIndex,ResObj)=>{
+                        $("#SSubject").append(`<option value="${ResObj.SubCode}">${ResObj.SubTitel}</option>`)
+                        $("#SSubject").removeAttr("disabled")
+
+                    })
+                })
+            }else{
+                $("#SSubject").attr("disabled","disabled");
+                $("#SSubject option").not($("#SSubject option")[0]).remove();
+                $("#SCode").attr("disabled","disabled");
+                $("#SCode").val("");
+                $("#AddQuestion").hide();
+            }
+        })
+        $("#SSubject").change((e)=>{
+            if (e.currentTarget.value != "0"){
+               $("#SCode").removeAttr("disabled")
+            }else{
+                $("#SCode").attr("disabled","disabled");
+                $("#SCode").val("");
+                $("#AddQuestion").hide()
+            }
+        });
+        $("#SCode").keyup((event)=>{
+            event.currentTarget.value != "" ? $("#AddQuestion").show() : $("#AddQuestion").hide();
+        })
+        
+    })
+</script>
+{% endblock %} 

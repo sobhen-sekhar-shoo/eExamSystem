@@ -10,7 +10,7 @@ from pymongo import MongoClient
 import datetime
 import os
 from werkzeug.utils import secure_filename
-import frender
+import json
 
 
 
@@ -31,6 +31,8 @@ except:
 db = client["Exam_system"]
 UserDb = db["Users"]
 LeftMenuDb = db["LeftMenu"]
+BranchDb = db["Branches"]
+SubjectDb = db["Subjects"]
 
 
 @app.context_processor
@@ -345,6 +347,27 @@ def Exam():
     if request.method == 'POST':
          
             return redirect("/exams/exam", code=302)     
+
+@app.route('/exams/add_exam', methods=['GET','POST'])
+def AddExam():
+    error = None
+    if request.method == 'GET':
+        if LogStatus() :
+           BranchDt = BranchDb.find({"BCollCode" : "RJ34EN87CG"})
+           Branch = request.args.get("Branch")
+           if Branch != None and Branch != "0" :
+              print(Branch)
+              FSubjects = SubjectDb.find({"BranchCode" : Branch})
+              SubjectDt = []
+              for item in FSubjects :
+                  item['_id'] = str(item['_id'])
+                  SubjectDt.append(item)   
+              return SubjectDt
+           return render_template("/exams/add_exam.html" ,BranDt = BranchDt) 
+        return redirect("/logout")
+    if request.method == 'POST':
+         
+            return redirect("/exams/add_exam", code=302)     
 
 @app.route('/exams/schedule_exam', methods=['GET','POST'])
 def ScheduleExam():

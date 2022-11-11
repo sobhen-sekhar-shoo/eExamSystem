@@ -33,3 +33,31 @@
 #DeleteModal .modal-body .delete_input_area{
     margin-top: 30px;
 }
+
+select.form-control{
+    color: #495057;
+}
+
+.AQBtn{
+    border: none;
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    background-color: #4b49ac;
+    color: #fff;
+    padding: 6px;
+    transition: 0.3s ease-in-out;
+}
+
+.AQBtn:hover{
+    transform: rotate(360deg);
+    box-shadow: 0px 0px 10px 0px #5754d5;
+}
+
+.AQBtn .ti-plus{
+    font-weight: bold;
+}
+
+#AddQuestion{
+    display: none;
+}
