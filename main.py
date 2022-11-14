@@ -33,6 +33,7 @@ UserDb = db["Users"]
 LeftMenuDb = db["LeftMenu"]
 BranchDb = db["Branches"]
 SubjectDb = db["Subjects"]
+QuestionDb = db["QuestionBank"]
 
 
 @app.context_processor
@@ -366,8 +367,28 @@ def AddExam():
            return render_template("/exams/add_exam.html" ,BranDt = BranchDt) 
         return redirect("/logout")
     if request.method == 'POST':
-         
-            return redirect("/exams/add_exam", code=302)     
+       EBranch = request.form["Branch"]
+       ESubject = request.form["Subject"]
+       ESubCode = request.form["SubCode"]
+       EQsType= request.form["QsType"]
+       EQuestion = request.form["Question"]
+       EOption1 = request.form["Option1"]
+       EOption2 = request.form["Option2"]
+       EOption3 = request.form["Option3"]
+       EOption4 = request.form["Option4"]
+       EQustion = {
+           "Branch" :  EBranch,
+           "Subject" : ESubject,
+           "SubCode" : ESubCode,
+           "QsType" :  EQsType,
+           "Question" :EQuestion,
+           "Option1" : EOption1,
+           "Option2" : EOption2,
+           "Option3" : EOption3,
+           "Option4" : EOption4
+       }
+       QuestionDb.insert_one(EQustion)
+       return redirect("/exams/add_exam", code=302)     
 
 @app.route('/exams/schedule_exam', methods=['GET','POST'])
 def ScheduleExam():
@@ -386,4 +407,4 @@ def ScheduleExam():
 
 if __name__ == "__main__":
    print(__name__)
-   app.run(port=3000,debug=True)
+   app.run(host='0.0.0.0',port=3000,debug=True)

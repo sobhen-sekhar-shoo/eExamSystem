@@ -61,3 +61,7 @@ select.form-control{
 #AddQuestion{
     display: none;
 }
+
+.SolidLn{
+    border-bottom: 1px solid darkgrey;
+}
