@@ -64,4 +64,12 @@ select.form-control{
 
 .SolidLn{
     border-bottom: 1px solid darkgrey;
+    margin-bottom: 10px;
+}
+
+.QsAnswarBlk{
+    width: 50%;
+    float: right;
+    text-align: right;
+    padding-right: 5px;
 }

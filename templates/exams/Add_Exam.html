@@ -27,8 +27,8 @@
                     </select>
                  </div>
                  <div class="col-md-4 col-sm-4 col-xs-4">
-                    <label for="SCode">Subject Code</label>
-                    <input type="text" class="form-control" name="SubCode" id="SCode" placeholder="Subject Code" required disabled>
+                    <label for="QSP_Code">Question Paper Code</label>
+                    <input type="text" class="form-control" name="QSPCode" id="QSP_Code" placeholder="Question Paper Code" required disabled>
                  </div>
                 </div>
               </div>
@@ -64,23 +64,23 @@
             }else{
                 $("#SSubject").attr("disabled","disabled");
                 $("#SSubject option").not($("#SSubject option")[0]).remove();
-                $("#SCode").attr("disabled","disabled");
-                $("#SCode").val("");
+                $("#QSP_Code").attr("disabled","disabled");
+                $("#QSP_Code").val("");
                 $("#AddQuestion").hide();
                 $("#NewQuestionArea,.Qustions,.QustionsOpt,.QsSub").remove() ;
             }
         })
         $("#SSubject").change((e)=>{
             if (e.currentTarget.value != "0"){
-               $("#SCode").removeAttr("disabled")
+               $("#QSP_Code").removeAttr("disabled")
             }else{
-                $("#SCode").attr("disabled","disabled");
-                $("#SCode").val("");
+                $("#QSP_Code").attr("disabled","disabled");
+                $("#QSP_Code").val("");
                 $("#AddQuestion").hide()
                 $("#NewQuestionArea,.Qustions,.QustionsOpt,.QsSub").remove() ;
             }
         });
-        $("#SCode").keyup((event)=>{
+        $("#QSP_Code").keyup((event)=>{
             event.currentTarget.value != "" ? $("#AddQuestion").show() : $("#AddQuestion").hide();
             event.currentTarget.value == "" ? $("#NewQuestionArea,.Qustions,.QustionsOpt,.QsSub").remove() : "" ;
         })
@@ -114,18 +114,22 @@
                                         <div class="row">
                                             <div class="col-md-3 col-sm-3 col-xs-12">
                                                 <label for="Option_1">Option 1</label>
+                                                <div class="QsAnswarBlk"><input type="radio" name="QsAnswar" value="Option1" checked></div>
                                                 <input type="text" class="form-control" name="Option1" id="Option_1" placeholder="Option 1" required/>
                                              </div>
                                              <div class="col-md-3 col-sm-3 col-xs-12">
                                                 <label for="Option_2">Option 2</label>
+                                                <div class="QsAnswarBlk"><input type="radio" name="QsAnswar" value="Option2"></div>
                                                 <input type="text" class="form-control" name="Option2" id="Option_2" placeholder="Option 2" required/>
                                              </div>
                                              <div class="col-md-3 col-sm-3 col-xs-12">
                                                 <label for="Option_3">Option 3</label>
+                                                <div class="QsAnswarBlk"><input type="radio" name="QsAnswar" value="Option3"></div>
                                                 <input type="text" class="form-control" name="Option3" id="Option_3" placeholder="Option 3" required/>
                                              </div>
                                              <div class="col-md-3 col-sm-3 col-xs-12">
                                                 <label for="Option_4">Option 4</label>
+                                                <div class="QsAnswarBlk"><input type="radio" name="QsAnswar" value="Option4"></div>
                                                 <input type="text" class="form-control" name="Option4" id="Option_4" placeholder="Option 4" required/>
                                              </div>
                                         </div>
@@ -165,17 +169,19 @@
     })
     function QsFormSubmit(){
         let Page_IsValid = true;
-        $("#SBranch,#SSubject,#SCode,#MQs,#Option_1,#Option_2,#Option_3,#Option_4").each((LIndex,LObj)=>{
+        $("#SBranch,#SSubject,#QSP_Code,#MQs,#Option_1,#Option_2,#Option_3,#Option_4").each((LIndex,LObj)=>{
            if(LObj.value.trim() == "" ){
              Page_IsValid = false
              return Page_IsValid
            }
         })
         if(Page_IsValid){
-        $.post(window.location.href,$("form").serialize(),(result)=>{
-            $(".Qustions,.QustionsOpt,.QsSub").remove() ;
-        })
-      }
+            $.post(window.location.href,$("form").serialize(),(result)=>{
+                $(".Qustions,.QustionsOpt,.QsSub").remove() ;
+            })
+        }else{
+            alert('Plz fill all the field')
+        }
     }
 </script>
 {% endblock %} 

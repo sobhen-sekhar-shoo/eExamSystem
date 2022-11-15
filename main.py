@@ -369,23 +369,25 @@ def AddExam():
     if request.method == 'POST':
        EBranch = request.form["Branch"]
        ESubject = request.form["Subject"]
-       ESubCode = request.form["SubCode"]
+       EQSPCode = request.form["QSPCode"]
        EQsType= request.form["QsType"]
        EQuestion = request.form["Question"]
-       EOption1 = request.form["Option1"]
-       EOption2 = request.form["Option2"]
-       EOption3 = request.form["Option3"]
-       EOption4 = request.form["Option4"]
+       EOption1 = request.form["Option1"] if "Option1" in request.form else None
+       EOption2 = request.form["Option2"] if "Option2" in request.form else None
+       EOption3 = request.form["Option3"] if "Option3" in request.form else None
+       EOption4 = request.form["Option4"] if "Option4" in request.form else None
+       EQsAnswar = request.form["QsAnswar"] if "QsAnswar" in request.form else None
        EQustion = {
            "Branch" :  EBranch,
            "Subject" : ESubject,
-           "SubCode" : ESubCode,
+           "QSPCode" : EQSPCode,
            "QsType" :  EQsType,
            "Question" :EQuestion,
            "Option1" : EOption1,
            "Option2" : EOption2,
            "Option3" : EOption3,
-           "Option4" : EOption4
+           "Option4" : EOption4,
+           "QsAnswar" : EQsAnswar
        }
        QuestionDb.insert_one(EQustion)
        return redirect("/exams/add_exam", code=302)     
@@ -393,13 +395,32 @@ def AddExam():
 @app.route('/exams/schedule_exam', methods=['GET','POST'])
 def ScheduleExam():
     error = None
+    BranchDt = BranchDb.find({"BCollCode" : "RJ34EN87CG"})
     if request.method == 'GET':
         if LogStatus() :
-           return render_template("/exams/schedule_exam.html") 
+           Branch = request.args.get("Branch")
+           if Branch != None and Branch != "0" :
+              FSubjects = SubjectDb.find({"BranchCode" : Branch})
+              SubjectDt = []
+              for item in FSubjects :
+                  item['_id'] = str(item['_id'])
+                  SubjectDt.append(item)   
+              return SubjectDt
+           return render_template("/exams/schedule_exam.html",BranDt = BranchDt) 
         return redirect("/logout")
     if request.method == 'POST':
-         
-            return render_template("/exams/schedule_exam.html")     
+        ScBranch = request.form["Branch"]
+        ScSubject = request.form["Subject"]
+        ScData = QuestionDb.find({"Branch" : ScBranch,"Subject" : ScSubject})
+        ScCodeDt = []
+        for item in ScData :
+            if item["QSPCode"] not in ScCodeDt :
+               ScCodeDt.append(item["QSPCode"])
+        ScQsdt = []
+        for QsItem in ScData :
+            pass
+        print(ScCodeDt)
+        return render_template("/exams/schedule_exam.html", BranDt = BranchDt)     
     
 
 
