@@ -1,0 +1,68 @@
+Dashboard :
+          url == /home
+          icon == icon-grid
+
+Faculty List :
+          url == ""
+          icon == icon-head
+          subPage =>
+                   Faculty:
+                        url == /faculty/faculty
+		   Add Faculty :
+                        url == /faculty/add_faculty
+Student List:
+          url == ""
+          icon == icon-layout
+          subPage =>
+                   Student :
+                        url == /student/students
+		   Add Student :
+                        url == /student/add_student
+Subjects :
+           url == ""
+          icon == icon-columns
+          subPage =>
+                   Subject :
+                        url == /subject/subject
+		   Add Subject :
+                        url == /subject/add_subject
+Exams :
+           url == ""
+          icon == icon-bar-graph
+          subPage =>
+                   Exam :
+                        url == /exam/exam
+		   Add Exam :
+                        url == /exam/add_exam
+Reports:
+           url == ""
+          icon == icon-grid-2
+          subPage =>
+                   Report:
+                        url == /reports/report
+Papers :
+           url == ""
+          icon == icon-contract
+          subPage =>
+                   My Papers:
+                        url == /papers/paper
+Important Notice:
+           url == ""
+          icon == icon-paper
+          subPage =>
+                   Notice :
+                        url == /notice/notice
+                   Add Notice :
+                        url == /notice/add_notice
+Setting :
+           url == ""
+          icon == ti-settings
+          subPage =>
+                   Pages :
+                        url == /setting/pages
+                   Add Pages :
+                        url == /setting/add_pages
+Support :
+          url == /support
+          icon == ti-headphone-alt		
+
